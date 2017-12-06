@@ -69,8 +69,8 @@ header {
 }
 
 footer {
-    background: $navbar-l1-link-color;
-    border-top: 5px solid $primary-color;
+    background: $primary-color;
+    border-top: 5px solid $page-icon-color;
     padding: 10px 20px 10px;
 }
 
@@ -90,3 +90,144 @@ footer {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.ms-promlink-header {
+  display: none;
+}
+
+.ms-promlink-root {
+  width: 100%;
+  overflow: visible;
+}
+
+.ms-promlink-body {
+  width: 100%;
+}
+
+.ms-tileview-tile-root {
+    width: 179px !important;
+}
+
+.ms-tileview-tile-content {
+    width: 177.5px !important;
+}
+
+.ms-tileview-tile-content img {
+    width: 100% !important;
+    right: 0px !important;
+}
+
+.ms-tileview-tile-detailsBox {
+    width: 100% !important;
+}
+
+
+// Ipad och högre
+@media only screen and (min-device-width: 1366px) { 
+       .ms-tileview-tile-root {
+            width: 179px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 177.5px !important;
+        }
+    }
+
+    // Ipad liggande
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1365px) and (orientation:landscape){ 
+       .ms-tileview-tile-root {
+            width: 145px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 143.5px !important;
+        }
+    }
+
+@media only screen and (min-device-width: 736px) and (max-device-width: 1023px) and (orientation:landscape){ 
+       .ms-tileview-tile-root {
+            width: 172px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 170.5px !important;
+        }
+    }
+
+
+
+@media only screen and (min-device-width: 667px) and (max-device-width: 731px) and (orientation:landscape){ 
+       .ms-tileview-tile-root {
+            width: 154px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 152.5px !important;
+        }
+    }
+
+    @media only screen and (min-device-width: 732px) and (max-device-width: 735px) and (orientation:landscape){ 
+       .ms-tileview-tile-root {
+            width: 170px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 168.5px !important;
+        }
+    }
+
+
+        // Ipad + stående
+@media only screen and (device-width: 1024px) and (orientation:portrait){ 
+       .ms-tileview-tile-root {
+            width: 145px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 143.5px !important;
+        }
+    }   
+
+    // Ipad stående
+@media only screen and (min-device-width: 768px) and (max-device-width: 1023px) and (orientation:portrait){ 
+       .ms-tileview-tile-root {
+            width: 179px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 177.5px !important;
+        }
+    }
+
+ 
+
+ @media only screen and (min-device-width: 412px) and (max-device-width: 767px) and (orientation:portrait){ 
+       .ms-tileview-tile-root {
+            width: 182px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 180.5px !important;
+        }
+    }   
+
+ @media only screen and (min-device-width: 375px) and (max-device-width: 411px) and (orientation:portrait){ 
+       .ms-tileview-tile-root {
+            width: 164px !important;
+        }
+
+        .ms-tileview-tile-content {
+            width: 162.5px !important;
+        }
+    }   
+
+@media (min-width: 767px) { 
+  .flickity-viewport {
+      height: 310px !important;
+    }
+}
+
+
+
+
+

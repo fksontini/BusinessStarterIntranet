@@ -22,6 +22,9 @@
             padding-left: 15px;
             margin-bottom: 5px;
 
+            i {
+            color: $page-icon-color;       
+            }
             a, a:hover {
                 color: $footerlinks-color;
             }

@@ -105,21 +105,21 @@ Pop-Location
 Write-Host "3# Apply the provisioning template to the root site..." -ForegroundColor Magenta
 
 # Create news and events folders in the "Pages" library
-Ensure-PnPFolder -SiteRelativePath "Pages/News" | Out-Null
-Ensure-PnPFolder -SiteRelativePath "Pages/Events" | Out-Null
+Ensure-PnPFolder -SiteRelativePath "Sidor/News" | Out-Null
+Ensure-PnPFolder -SiteRelativePath "Sidor/Events" | Out-Null
 
 # Apply the root site provisioning template
 Apply-PnPProvisioningTemplate -Path $ProvisioningRootSiteTemplateFile -Parameters @{ "CompanyName" = $AppFolderName; "AssemblyVersion" = $AssemblyVersion; }
 
 # Enable Item Scheduling feature on the "Pages" library
-Enable-CustomItemScheduling -Web (Get-PnPWeb) -PagesLibraryName "Pages"
+Enable-CustomItemScheduling -Web (Get-PnPWeb) -PagesLibraryName "Sidor"
 
 # Content Types order
 $ContentTypesOrderRoot = @(
 
-	[PSCustomObject]@{FolderName="Pages";ContentTypes=@("Home Page","Static Page","Search Page")},
-	[PSCustomObject]@{FolderName="Pages/News";ContentTypes=@("News Page")}
-	[PSCustomObject]@{FolderName="Pages/Events";ContentTypes=@("Event Page")}
+	[PSCustomObject]@{FolderName="Sidor";ContentTypes=@("Home Page","Static Page","Search Page")},
+	[PSCustomObject]@{FolderName="Sidor/News";ContentTypes=@("News Page")}
+	[PSCustomObject]@{FolderName="Sidor/Events";ContentTypes=@("Event Page")}
 )
 
 $ContentTypesOrderRoot | Foreach-Object { Set-FolderContentTypesOrder -FolderRelativePath $_.FolderName -ContentTypes $_.ContentTypes }
@@ -170,14 +170,14 @@ $FilesToPublish = @(
 	[PSCustomObject]@{Url="$SiteServerRelativeUrl/_catalogs/masterpage/display templates/Search/$AppFolderName/Item_Intranet_WebPage_HoverPanel.html"},
 
 	# Pages  	
-    [PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/Home.aspx"},  
-	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/Search.aspx"},  
-	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/SearchDocuments.aspx"},
-	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/Accueil.aspx"},  
-	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/Recherche.aspx"},  
-	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/RechercheDocuments.aspx"}    	
-	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/RecherchePersonnes.aspx"},  
-	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Pages/SearchPeople.aspx"}   
+    [PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/Home.aspx"},  
+	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/Search.aspx"},  
+	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/SearchDocuments.aspx"},
+	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/Hem.aspx"},  
+	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/Sok.aspx"},  
+	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/SokDokument.aspx"}    	
+	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/SokPersoner.aspx"},  
+	[PSCustomObject]@{Url="$SiteServerRelativeUrl/Sidor/SearchPeople.aspx"}   
 )
 
 $FilesToPublish | ForEach-Object {
@@ -187,10 +187,21 @@ $FilesToPublish | ForEach-Object {
 }
 
 # Approve all items 
-Get-PnPListItem -List Pages | ForEach-Object { 
+Get-PnPListItem -List Sidor | ForEach-Object { 
     $_["_ModerationStatus"] = 0
     $_.Update()
 }
+
+Execute-PnPQuery
+
+# Reset the theme
+Set-PnPTheme
+
+# Set the theme
+$Web = Get-PnPWeb
+$bgImageUrl = Out-Null
+$fontScheme = Out-Null
+$Web.ApplyTheme("$SiteServerRelativeUrl/_catalogs/theme/15/intranet.spcolor", $fontScheme, $bgImageUrl, $true)
 
 Execute-PnPQuery
 
@@ -207,31 +218,31 @@ $SiteCollectionTermGroup = $TermStore.GetSiteCollectionGroup($CurrentSite, $fals
 $IntranetTermGroupName = Get-PnPProperty -ClientObject $SiteCollectionTermGroup -Property Name 
 
 $SiteMapTermSetName_EN = "Site Map EN"
-$SiteMapTermSetName_FR = "Site Map FR"
+$SiteMapTermSetName_SV = "Site Map SV"
 
 $HeaderLinksTermSetName_EN = "Header Links EN"
-$HeaderLinksTermSetName_FR = "Header Links FR"
+$HeaderLinksTermSetName_SV = "Header Links SV"
 
 $FooterLinksTermSetName_EN = "Footer Links EN"
-$FooterLinksTermSetName_FR = "Footer Links FR"
+$FooterLinksTermSetName_SV = "Footer Links SV"
 
-# Get navigation term sets for each language (FR & EN)
+# Get navigation term sets for each language (SV & EN)
 $SiteMapTermSet_EN = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$SiteMapTermSetName_EN"
 $SiteMapTermSetId_EN = $SiteMapTermSet_EN.Id
 
-$SiteMapTermSet_FR = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$SiteMapTermSetName_FR"
-$SiteMapTermSetId_FR = $SiteMapTermSet_FR.Id
+$SiteMapTermSet_SV = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$SiteMapTermSetName_SV"
+$SiteMapTermSetId_SV = $SiteMapTermSet_SV.Id
 
 # Duplicate the Site Map EN into Site Map FR to have a mirror structure (i.e pin terms with children)
-$SiteMapTermSetTerms_EN = Get-PnPProperty -ClientObject $SiteMapTermSet_EN -Property Terms
+$SiteMapTermSetTerms_SV = Get-PnPProperty -ClientObject $SiteMapTermSet_SV -Property Terms
 
-$SiteMapTermSetTerms_EN | ForEach-Object {
+$SiteMapTermSetTerms_SV | ForEach-Object {
 
-	$NavTerm = Get-PnPTaxonomyItem -Term ("$IntranetTermGroupName|$SiteMapTermSetName_FR|" + $_.Name)
+	$NavTerm = Get-PnPTaxonomyItem -Term ("$IntranetTermGroupName|$SiteMapTermSetName_EN|" + $_.Name)
 
     if ($NavTerm -eq $null) {
 
-		$Reuse = $SiteMapTermSet_FR.ReuseTermWithPinning($_)
+		$Reuse = $SiteMapTermSet_EN.ReuseTermWithPinning($_)
 
 		Execute-PnPQuery
 	}
@@ -241,18 +252,18 @@ $SiteMapTermSetTerms_EN | ForEach-Object {
 $HeaderLinksTermSet_EN = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$HeaderLinksTermSetName_EN"
 $HeaderLinksTermSetId_EN = $HeaderLinksTermSet_EN.Id
 
-$HeaderLinksTermSet_FR = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$HeaderLinksTermSetName_FR"
-$HeaderLinksTermSetId_FR = $HeaderLinksTermSet_FR.Id
+$HeaderLinksTermSet_SV = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$HeaderLinksTermSetName_SV"
+$HeaderLinksTermSetId_SV = $HeaderLinksTermSet_SV.Id
 
-$HeaderLinksTermSetTerms_EN = Get-PnPProperty -ClientObject $HeaderLinksTermSet_EN -Property Terms
+$HeaderLinksTermSetTerms_SV = Get-PnPProperty -ClientObject $HeaderLinksTermSet_SV -Property Terms
 
-$HeaderLinksTermSetTerms_EN | ForEach-Object {
+$HeaderLinksTermSetTerms_SV | ForEach-Object {
 
-	$NavTerm = Get-PnPTaxonomyItem -Term ("$IntranetTermGroupName|$HeaderLinksTermSetName_FR|" + $_.Name)
+	$NavTerm = Get-PnPTaxonomyItem -Term ("$IntranetTermGroupName|$HeaderLinksTermSetName_EN|" + $_.Name)
 
     if ($NavTerm -eq $null) {
 
-		$Reuse = $HeaderLinksTermSet_FR.ReuseTermWithPinning($_)
+		$Reuse = $HeaderLinksTermSet_EN.ReuseTermWithPinning($_)
 
 		Execute-PnPQuery
 	}
@@ -262,34 +273,35 @@ $HeaderLinksTermSetTerms_EN | ForEach-Object {
 $FooterLinksTermSet_EN = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$FooterLinksTermSetName_EN"
 $FooterLinksTermSetId_EN = $FooterLinksTermSet_EN.Id
 
-$FooterLinksTermSet_FR = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$FooterLinksTermSetName_FR"
-$FooterLinksTermSetId_FR = $FooterLinksTermSet_FR.Id
+$FooterLinksTermSet_SV = Get-PnPTaxonomyItem -Term "$IntranetTermGroupName|$FooterLinksTermSetName_SV"
+$FooterLinksTermSetId_SV = $FooterLinksTermSet_SV.Id
 
-$FooterLinksTermSetTerms_EN = Get-PnPProperty -ClientObject $FooterLinksTermSet_EN -Property Terms
+$FooterLinksTermSetTerms_SV = Get-PnPProperty -ClientObject $FooterLinksTermSet_SV -Property Terms
 
-$FooterLinksTermSetTerms_EN | ForEach-Object {
+$FooterLinksTermSetTerms_SV | ForEach-Object {
 
-	$NavTerm = Get-PnPTaxonomyItem -Term ("$IntranetTermGroupName|$FooterLinksTermSetName_FR|" + $_.Name)
+	$NavTerm = Get-PnPTaxonomyItem -Term ("$IntranetTermGroupName|$FooterLinksTermSetName_EN|" + $_.Name)
 
     if ($NavTerm -eq $null) {
 
-		$Reuse = $FooterLinksTermSet_FR.ReuseTermWithPinning($_)
+		$Reuse = $FooterLinksTermSet_EN.ReuseTermWithPinning($_)
 
 		Execute-PnPQuery
 	}
 }
+
 
 # -------------------------------------------------------------------------------------
 # Setup the configuration list
 # -------------------------------------------------------------------------------------
 Write-Host "6# Setup the configuration list..." -ForegroundColor Magenta
 
-$ConfigurationList = Get-PnPList -Identity "Configuration"
+$ConfigurationList = Get-PnPList -Identity "Konfiguration"
 
 $ConfigurationItems = @(
 
 	@{ "Title"="Default EN";"ForceCacheRefresh"=1;"SiteMapTermSetId"=$SiteMapTermSetId_EN;"HeaderLinksTermSetId"=$HeaderLinksTermSetId_EN;"FooterLinksTermSetId"=$FooterLinksTermSetId_EN;"IntranetContentLanguage"="EN" },
-	@{ "Title"="Default FR";"ForceCacheRefresh"=1;"SiteMapTermSetId"=$SiteMapTermSetId_FR;"HeaderLinksTermSetId"=$HeaderLinksTermSetId_FR;"FooterLinksTermSetId"=$FooterLinksTermSetId_FR;"IntranetContentLanguage"="FR" }
+	@{ "Title"="Default SV";"ForceCacheRefresh"=1;"SiteMapTermSetId"=$SiteMapTermSetId_SV;"HeaderLinksTermSetId"=$HeaderLinksTermSetId_SV;"FooterLinksTermSetId"=$FooterLinksTermSetId_SV;"IntranetContentLanguage"="SV" }
 )
 
 # Create the configuration item for each language
@@ -312,28 +324,44 @@ $File = Add-PnPFile -Path $ImageRenditionsConfigurationFilePath -Folder "_catalo
 # Add sample data
 # -------------------------------------------------------------------------------------
 if ($IncludeData.IsPresent) {
-
-    $CarouselItemsList = Get-PnPList -Identity "Carousel Items"
+	$CarouselItemsList = Get-PnPList -Identity "Carousel Items"
 
     $ConfigurationItemsEN = @(
 
-	    @{ "Title"="Part 1: Functional overview (How to use the solution?)";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/22/part-1-functional-overview-how-to-use-the-solution";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part1.png";"IntranetContentLanguage"="EN" },
-	    @{ "Title"="Part 2: Frameworks and libraries used (How it is implemented?)";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/25/part-2-frameworks-and-libraries-used-how-it-is-implemented";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part2.png";"IntranetContentLanguage"="EN" },
-        @{ "Title"="Part 3: Design and mobile implementation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/29/part-3-design-and-mobile-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part3.png";"IntranetContentLanguage"="EN" },
-        @{ "Title"="Part 4: The navigation implementation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/31/part-4-the-navigation-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part4.png";"IntranetContentLanguage"="EN" },    
-        @{ "Title"="Part 5: Localization";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/02/part-5-localization";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part5.png";"IntranetContentLanguage"="EN" },  
-        @{ "Title"="Part 6: The search implementation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/08/part-6-the-search-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part6.png";"IntranetContentLanguage"="EN" }  
+	    @{ "Title"="Our offers: What we as a company can offer";"CarouselItemURL"="http://www.dizparc.se/vara-erbjudanden";"CarouselItemImage"="$SiteServerRelativeUrl/Style Library/PnP/img/kundvard.jpg";"IntranetContentLanguage"="EN" },
+	    @{ "Title"="Customers: Customer testimonials and real life cases";"CarouselItemURL"="http://www.dizparc.se/kunder";"CarouselItemImage"="$SiteServerRelativeUrl/Style Library/PnP/img/kundlista.jpg";"IntranetContentLanguage"="EN" },
+        @{ "Title"="Work at dizparc: How to get in touch";"CarouselItemURL"="http://www.dizparc.se/jobba-hos-oss";"CarouselItemImage"="$SiteServerRelativeUrl/Style Library/PnP/img/arenden.jpg";"IntranetContentLanguage"="EN" }
+		  
     )
 
-    $ConfigurationItemsFR = @(
+    $ConfigurationItemsSV = @(
 
-	    @{ "Title"="Partie 1: Aperçu fonctionel (Comment utiliser cette solution?)";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/22/part-1-functional-overview-how-to-use-the-solution";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part1.png";"IntranetContentLanguage"="FR" },
-	    @{ "Title"="Partie 2: Frameworks et librairies utilisées";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/25/part-2-frameworks-and-libraries-used-how-it-is-implemented";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part2.png";"IntranetContentLanguage"="FR" },
-        @{ "Title"="Partie 3: Identité visuelle et implémentation mobile";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/29/part-3-design-and-mobile-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part3.png";"IntranetContentLanguage"="FR" },
-        @{ "Title"="Partie 4: Implémentation de la navigation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/31/part-4-the-navigation-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part4.png";"IntranetContentLanguage"="FR" },    
-        @{ "Title"="Partie 5: Multilinguisme";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/02/part-5-localization";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part5.png";"IntranetContentLanguage"="FR" },  
-        @{ "Title"="Partie 6: Implémentation de la recherche";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/08/part-6-the-search-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part6.png";"IntranetContentLanguage"="FR" }  
-    )
+	    @{ "Title"="Våra erbjudanden: Vad kan vi som företag erbjuda";"CarouselItemURL"="http://www.dizparc.se/vara-erbjudanden";"CarouselItemImage"="$SiteServerRelativeUrl/Style Library/PnP/img/kundvard.jpg";"IntranetContentLanguage"="SV" },
+	    @{ "Title"="Kunder: De kunder och case vi arbetar med";"CarouselItemURL"="http://www.dizparc.se/kunder";"CarouselItemImage"="$SiteServerRelativeUrl/Style Library/PnP/img/kundlista.jpg";"IntranetContentLanguage"="SV" },
+        @{ "Title"="Arbeta på dizparc: Hur kommer du i kontakt med oss?";"CarouselItemURL"="http://www.dizparc.se/jobba-hos-oss";"CarouselItemImage"="$SiteServerRelativeUrl/Style Library/PnP/img/arenden.jpg";"IntranetContentLanguage"="SV" }
+	  )
+
+    # $CarouselItemsList = Get-PnPList -Identity "Carousel Items"
+
+    # $ConfigurationItemsEN = @(
+
+	#     @{ "Title"="Part 1: Functional overview (How to use the solution?)";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/22/part-1-functional-overview-how-to-use-the-solution";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part1.png";"IntranetContentLanguage"="EN" },
+	#     @{ "Title"="Part 2: Frameworks and libraries used (How it is implemented?)";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/25/part-2-frameworks-and-libraries-used-how-it-is-implemented";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part2.png";"IntranetContentLanguage"="EN" },
+    #     @{ "Title"="Part 3: Design and mobile implementation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/29/part-3-design-and-mobile-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part3.png";"IntranetContentLanguage"="EN" },
+    #     @{ "Title"="Part 4: The navigation implementation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/31/part-4-the-navigation-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part4.png";"IntranetContentLanguage"="EN" },    
+    #     @{ "Title"="Part 5: Localization";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/02/part-5-localization";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part5.png";"IntranetContentLanguage"="EN" },  
+    #     @{ "Title"="Part 6: The search implementation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/08/part-6-the-search-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part6.png";"IntranetContentLanguage"="EN" }  
+    # )
+
+    # $ConfigurationItemsSV = @(
+
+	#     @{ "Title"="Del 1: Aperçu fonctionel (Comment utiliser cette solution?)";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/22/part-1-functional-overview-how-to-use-the-solution";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part1.png";"IntranetContentLanguage"="SV" },
+	#     @{ "Title"="Del 2: Frameworks et librairies utilisées";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/25/part-2-frameworks-and-libraries-used-how-it-is-implemented";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part2.png";"IntranetContentLanguage"="SV" },
+    #     @{ "Title"="Del 3: Identité visuelle et implémentation mobile";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/29/part-3-design-and-mobile-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part3.png";"IntranetContentLanguage"="SV" },
+    #     @{ "Title"="Del 4: Implémentation de la navigation";"CarouselItemURL"="http://thecollaborationcorner.com/2016/08/31/part-4-the-navigation-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/08/part4.png";"IntranetContentLanguage"="SV" },    
+    #     @{ "Title"="Del 5: Multilinguisme";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/02/part-5-localization";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part5.png";"IntranetContentLanguage"="SV" },  
+    #     @{ "Title"="Del 6: Implémentation de la recherche";"CarouselItemURL"="http://thecollaborationcorner.com/2016/09/08/part-6-the-search-implementation";"CarouselItemImage"="http://thecollaborationcorner.com/wp-content/uploads/2016/09/part6.png";"IntranetContentLanguage"="SV" }  
+    # )
 
     Write-Host "8# Add carousel data..." -ForegroundColor Magenta
 
@@ -344,21 +372,23 @@ if ($IncludeData.IsPresent) {
     	$Item = Set-PnPListItem -Identity  $Item.Id -List $CarouselItemsList -Values $_ -ContentType "Carousel Item"
     }
 
-    $ConfigurationItemsFR | ForEach-Object {
+    $ConfigurationItemsSV | ForEach-Object {
 
 		$Item = Add-PnPListItem -List $CarouselItemsList
     	$Item = Set-PnPListItem -Identity  $Item.Id -List $CarouselItemsList -Values $_ -ContentType "Carousel Item"
     }
 
     # Add promoted links
-    $PromotedLinksList = Get-PnPList -Identity "Links"
+    $PromotedLinksList = Get-PnPList -Identity "Länkar"
     $PromotedLinks = @(
 
-	    @{ "Title"="Link 1";"LinkLocation"="http://dev.office.com/patterns-and-practices"},
-	    @{ "Title"="Link 2";"LinkLocation"="http://dev.office.com/patterns-and-practices"},
-	    @{ "Title"="Link 3";"LinkLocation"="http://dev.office.com/patterns-and-practices"}
+	    @{ "Title"="Presentationer";"BackgroundImageLocation"="$SiteServerRelativeUrl/Style Library/PnP/img/kundvard.jpg";"LinkLocation"="http://www.dizparc.se"},
+	    @{ "Title"="HR";"BackgroundImageLocation"="$SiteServerRelativeUrl/Style Library/PnP/img/kundlista.jpg";"LinkLocation"="http://www.dizparc.se"},
+	    @{ "Title"="Marknadsföring";"BackgroundImageLocation"="$SiteServerRelativeUrl/Style Library/PnP/img/arenden.jpg";"LinkLocation"="http://www.dizparc.se"},
+	    @{ "Title"="Leverantörsavtal";"BackgroundImageLocation"="$SiteServerRelativeUrl/Style Library/PnP/img/tidredovisning.jpg";"LinkLocation"="http://www.dizparc.se"}
+		
     )
-
+	
     $PromotedLinks | ForEach-Object {
 
 		$Item = Add-PnPListItem -List $PromotedLinksList

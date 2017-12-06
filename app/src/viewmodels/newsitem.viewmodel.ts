@@ -25,7 +25,7 @@ export class NewsDisplayTemplateItemViewModel extends DefaultDisplayTemplateItem
                 let newsContentTypeId = "0x010100C568DB52D9D0A14D9B2FDCC96666E9F2007948130EC3DB064584E219954237AF39000650D0E024D0AE42B88AF5AF825F709C02";
                 let refinementString = '{"k":"","r":[{"n":"ContentTypeId","t":["' + newsContentTypeId + '*"],"o":"and","k":false,"m":null}';
 
-                this.searchPageUrl(_spPageContextInfo.siteAbsoluteUrl + "/Pages/" + i18n.t("intranetSearchPageUrl") + "#Default=" + encodeURIComponent(refinementString));
+                this.searchPageUrl(_spPageContextInfo.siteAbsoluteUrl + "/Sidor/" + i18n.t("intranetSearchPageUrl") + "#Default=" + encodeURIComponent(refinementString));
             },
         };
     }

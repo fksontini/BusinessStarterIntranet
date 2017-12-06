@@ -48,7 +48,7 @@ export class PageDisplayTemplateItemViewModel extends DefaultDisplayTemplateItem
 
                             // We can't filter by ContentTypeId because the refinement does an "equal"" instead of a "contain" (so 0x0..* does not work). We use the taxonomy field ContentType instead (RefinableString02)
                             let refinementString = '{"k":"*","r":[{"n":"'+ filterProperty +'","t":["' + refinerValue + '"],"o":"and","k":true,"m":null}]}';
-                            this.searchPageUrl(_spPageContextInfo.siteAbsoluteUrl + "/Pages/" + i18n.t("intranetSearchPageUrl") + "#Default=" + encodeURIComponent(refinementString));
+                            this.searchPageUrl(_spPageContextInfo.siteAbsoluteUrl + "/Sidor/" + i18n.t("intranetSearchPageUrl") + "#Default=" + encodeURIComponent(refinementString));
                         }
                     }                    
                 });

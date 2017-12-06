@@ -5,12 +5,7 @@
               <i class="fa fa-bars" aria-hidden="true"></i>
           </button>
 
-          <div id="call-to-action" class="hidden-md hidden-lg hidden-sm">
-
-            <div id="languageswitcher-mobile">
-              <component-languageswitcher params='availableLanguages: ["EN","FR"], languageFieldName:"IntranetContentLanguage", associationKeyFieldName:"IntranetContentAssociationKey"'></component-languageswitcher>
-            </div>
-              
+          <div id="call-to-action" class="hidden-md hidden-lg hidden-sm">              
             <component-searchboxmobile></component-searchboxmobile>
 
           </div>
@@ -41,7 +36,7 @@
                     <div class="row-fluid">
                       <!-- ko foreach: children -->
                         <!-- ko ifnot: excludeFromGlobalNavigation() -->
-                        <ul class="col-sm-3 list-unstyled">
+                        <ul class="col-sm-2 list-unstyled">
                           <li class="level2">
                             <a data-bind="text: title, attr: { href: url }"></a>
                           </li>

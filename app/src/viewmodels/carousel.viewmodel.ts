@@ -38,7 +38,7 @@ export class CarouselViewModel {
         let web = new Web(_spPageContextInfo.webAbsoluteUrl);   
 
         // Get the current page language
-        web.lists.getByTitle("Pages").items.getById(_spPageContextInfo.pageItemId).select("ID", languageFieldName).get().then((item) => {
+        web.lists.getByTitle("Sidor").items.getById(_spPageContextInfo.pageItemId).select("ID", languageFieldName).get().then((item) => {
 
             let currentPageLanguage = item[languageFieldName];
 

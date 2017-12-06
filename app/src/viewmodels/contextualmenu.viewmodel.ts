@@ -54,7 +54,7 @@ export class ContextualMenuViewModel extends NavigationViewModel {
             let navigationTree: Array<NavigationNode> = data.nodes;
             let web = new Web(_spPageContextInfo.webAbsoluteUrl);  
 
-            web.lists.getByTitle("Pages").items.getById(_spPageContextInfo.pageItemId).select(this.siteMapFieldName).get().then((item) => {
+            web.lists.getByTitle("Sidor").items.getById(_spPageContextInfo.pageItemId).select(this.siteMapFieldName).get().then((item) => {
 
                     let siteMapTermGuid = item[this.siteMapFieldName];
                     let currentNode: NavigationNode = undefined;

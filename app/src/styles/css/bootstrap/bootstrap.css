@@ -228,12 +228,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #337ab7;
+  color: #353535;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #23527c;
+  color: #F9B130;
   text-decoration: underline;
 }
 a:focus {
@@ -1597,19 +1597,19 @@ fieldset[disabled] .btn-default.focus {
 }
 .btn-primary {
   color: #ffffff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  background-color: #AEC128;
+  border-color: #ccc;
 }
 .btn-primary:focus,
 .btn-primary.focus {
   color: #ffffff;
-  background-color: #286090;
+  background-color: #AEC128;
   border-color: #122b40;
 }
 .btn-primary:hover {
   color: #ffffff;
-  background-color: #286090;
-  border-color: #204d74;
+  background-color: #AEC128;
+  border-color: #122b40;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -2648,7 +2648,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {

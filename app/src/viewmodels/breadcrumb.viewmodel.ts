@@ -40,7 +40,7 @@ export class BreadcrumbViewModel extends NavigationViewModel {
             // There are two ways to determine the position of the current page in the navigation site map
             // 1) By checking the explicit value of the property used for content classification (and mapped to the site map term set).
             // 2) By checking the current url and try to find it in the navigation nodes data to get the corresponding term.
-            web.lists.getByTitle("Pages").items.getById(_spPageContextInfo.pageItemId).select(this.siteMapFieldName).get().then((item) => {
+            web.lists.getByTitle("Sidor").items.getById(_spPageContextInfo.pageItemId).select(this.siteMapFieldName).get().then((item) => {
 
                     let siteMapTermGuid = item[this.siteMapFieldName];
                     let currentNode: NavigationNode = undefined;

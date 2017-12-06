@@ -19,7 +19,7 @@
     /* Medium and large devices (Desktop) */
     @media (min-width: 768px) {
 
-        height: 300px;
+        height: 310px;
 
         .carousel-nav {
             
@@ -31,7 +31,7 @@
 
             .carousel-nav-row {
                 width: 100%;
-                background-color: $primary-color;
+                background-color: $page-icon-color;
                 padding: 5px;
                 cursor: pointer;           
                 display: table-row;
@@ -53,7 +53,7 @@
             }
 
             .carousel-nav-row.is-nav-selected {
-                background: $navbar-l1-link-color;
+                background: $primary-color;
 
                 .arrow-wrap {
       
@@ -69,12 +69,12 @@
 
                     &:before {
                         top: 0px;
-                        background: linear-gradient(to right top, $text-color 50%, transparent 50%)
+                        background: linear-gradient(to right top, $primary-color 50%, transparent 50%)
                     }
 
                     &:after {
                         top: 50%;
-                        background: linear-gradient(to right bottom, $text-color 50%, transparent 50%)
+                        background: linear-gradient(to right bottom, $primary-color 50%, transparent 50%)
                     }
                 }
             }

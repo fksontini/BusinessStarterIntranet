@@ -63,7 +63,7 @@ export class LanguageSwitcherViewModel {
 
         // Get the info for the current page
         let web = new Web(_spPageContextInfo.webAbsoluteUrl);
-        web.lists.getByTitle("Pages").items.getById(this.currentPageId).select(this.associationKeyFieldName, "ID", this.languageFieldName).get().then((item) => {
+        web.lists.getByTitle("Sidor").items.getById(this.currentPageId).select(this.associationKeyFieldName, "ID", this.languageFieldName).get().then((item) => {
 
             let allLanguages: Array<LanguageLinkViewModel> = [];
             let currentPageLanguage = item[this.languageFieldName];
@@ -73,7 +73,7 @@ export class LanguageSwitcherViewModel {
 
             // Return only one element ordered descending by the Modified date
             // It can't have more than one translation for the current page
-            web.lists.getByTitle("Pages").items.filter(filterQuery).orderBy("Modified").top(1).select("FileRef, Title", this.languageFieldName).get().then((item: Array<any>) => {
+            web.lists.getByTitle("Sidor").items.filter(filterQuery).orderBy("Modified").top(1).select("FileRef, Title", this.languageFieldName).get().then((item: Array<any>) => {
 
                 // Loop through each available languages and map the correct information according to the page context and its translations.
                 // We want to notifiy the users if there is not translation for a target language so that's why we map an arbitrary array of languages with the results
@@ -86,12 +86,12 @@ export class LanguageSwitcherViewModel {
 
                     // Set the corresponding flag icon CSS class
                     switch (element) {
-                        case "EN":
-                            languageLink.flagCssClass("gb");
+                        case "SV":
+                            languageLink.flagCssClass("sv");
                             break;
 
-                        case "FR":
-                            languageLink.flagCssClass("fr");
+                        case "EN":
+                            languageLink.flagCssClass("gb");
                             break;
 
                         default:

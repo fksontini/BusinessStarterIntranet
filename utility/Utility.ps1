@@ -149,7 +149,7 @@ function Set-FolderContentTypesOrder() {
 		$ContentTypes | Foreach-Object {
 
 			$ContentTypeName = $_
-			$Ct = Get-PnPContentType  -List Pages | Where-Object { $_.Name -eq $ContentTypeName }
+			$Ct = Get-PnPContentType  -List Sidor | Where-Object { $_.Name -eq $ContentTypeName }
 
 			if ($Ct) {
 

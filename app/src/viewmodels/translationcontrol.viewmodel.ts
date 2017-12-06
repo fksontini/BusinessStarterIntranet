@@ -173,14 +173,14 @@ export class TranslationControlViewModel {
         let web = new Web(_spPageContextInfo.webAbsoluteUrl);
 
         // Get the info for the current page
-        web.lists.getByTitle("Pages").items.getById(this.currentPageId).select(this.associationKeyFieldName, "ID", this.languageFieldName).get().then((item) => {
+        web.lists.getByTitle("Sidor").items.getById(this.currentPageId).select(this.associationKeyFieldName, "ID", this.languageFieldName).get().then((item) => {
 
             let targetLanguage: string = this.selectedLanguage();
 
             // Does a page in the 'Pages' library exist with the same GUID as me for the selected target language ?
             let filterQuery: string = this.associationKeyFieldName + " eq '" + item[this.associationKeyFieldName] + "' and ID ne '" + item.ID + "' and " + this.languageFieldName + " eq '" + targetLanguage  + "'";
 
-            web.lists.getByTitle("Pages").items.filter(filterQuery).select("FileRef, FileLeafRef").get().then((item) => {
+            web.lists.getByTitle("Sidor").items.filter(filterQuery).select("FileRef, FileLeafRef").get().then((item) => {
 
                 let msg: string;
 
@@ -244,7 +244,7 @@ export class TranslationControlViewModel {
                     web.getFileByServerRelativeUrl(destinationFile).listItemAllFields.select("ID").get().then((item) => {
 
                         // Set the peer language on the destination file
-                        web.lists.getByTitle("Pages").items.getById(item.ID).update({[this.languageFieldName]: this.selectedLanguage()}).then((item) => {
+                        web.lists.getByTitle("Sidor").items.getById(item.ID).update({[this.languageFieldName]: this.selectedLanguage()}).then((item) => {
 
                             this.isNewCreation(true);
                             this.checkForExistingTranslations();
@@ -290,7 +290,7 @@ export class TranslationControlViewModel {
         let web = new Web(_spPageContextInfo.webAbsoluteUrl);
 
         // Get the current page language
-        web.lists.getByTitle("Pages").items.getById(this.currentPageId).select(this.languageFieldName, this.associationKeyFieldName).get().then((item) => {
+        web.lists.getByTitle("Sidor").items.getById(this.currentPageId).select(this.languageFieldName, this.associationKeyFieldName).get().then((item) => {
 
             // Remove the current page language from the available languages
             let index = languages.indexOf(item[this.languageFieldName]);
@@ -321,7 +321,7 @@ export class TranslationControlViewModel {
             let web = new Web(_spPageContextInfo.webAbsoluteUrl);
 
             // Get the association key for the current item
-            web.lists.getByTitle("Pages").items.getById(this.currentPageId).select(this.associationKeyFieldName).get().then((item) => {
+            web.lists.getByTitle("Sidor").items.getById(this.currentPageId).select(this.associationKeyFieldName).get().then((item) => {
 
                 let currentContentAssociationKey = item[this.associationKeyFieldName];
 
@@ -335,7 +335,7 @@ export class TranslationControlViewModel {
                     let guid = this.utilityModule.getNewGuid();
 
                     // Set a new unique identifier for this page
-                    web.lists.getByTitle("Pages").items.getById(this.currentPageId).update({[this.associationKeyFieldName] : guid}).then((item) => {
+                    web.lists.getByTitle("Sidor").items.getById(this.currentPageId).update({[this.associationKeyFieldName] : guid}).then((item) => {
 
                         resolve();
                     });

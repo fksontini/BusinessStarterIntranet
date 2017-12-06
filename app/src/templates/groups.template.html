@@ -1,0 +1,36 @@
+<div id="groups" style="background: #ffffff;">
+<div style="padding:5px;">
+<div id="listOfGroups">
+<form id="live-search" action="" class="styled" method="post">
+    <fieldset>
+        Filtrera <input type="text" class="text-input" id="filter" value="" />
+        <span id="filter-count"></span>
+    </fieldset>
+</form>
+<ul class="list-group row" id="test" style="margin-left: 0px;margin-right: 0px;">
+    <!-- ko foreach: groups -->
+    <li data-bind class='list-group-item col-xs-6'><span data-bind="text: Title"></span><br />
+    <!-- ko if: Conversation -->
+    <a style='font-size:16px;' title='Grupp konversationer' data-bind="attr: { href: Conversation.Url }" target='_blank'><i class='fa fa-comments-o' aria-hidden='true'></i></a> | 
+     <!-- /ko -->
+     <!-- ko if: Calendar -->
+    <a style='font-size:16px;' title='Grupp kalender' data-bind="attr: { href: Calendar.Url }" target='_blank'><i class='fa fa-calendar' aria-hidden='true'></i></a> | 
+     <!-- /ko -->
+     <!-- ko if: Files -->
+    <a style='font-size:16px;' title='Grupp filer' data-bind="attr: { href: Files.Url }" target='_blank'><i class='fa fa-folder-open-o' aria-hidden='true'></i></a> | 
+     <!-- /ko -->
+      <!-- ko if: Notebook -->
+    <a style='font-size:16px;' title='Grupp filer' data-bind="attr: { href: Notebook.Url }" target='_blank'><i class='fa fa-book' aria-hidden='true'></i></a> | 
+     <!-- /ko -->
+     <!-- ko if: Site -->
+    <a style='font-size:16px;' title='Grupp filer' data-bind="attr: { href: Site.Url }" target='_blank'><i class='fa fa-sitemap' aria-hidden='true'></i></a> | 
+     <!-- /ko -->
+    </li>
+<!-- /ko -->
+</ul>
+
+</div>
+
+<div class="page"></div>
+</div>
+</div>

@@ -24,7 +24,7 @@ export class HeaderLinksViewModel extends NavigationViewModel {
         this.wait = ko.observable(true);
 
         let currentLanguage = i18n.t("LanguageLabel");
-        let configListName = "Configuration";
+        let configListName = "Konfiguration";
 
         this.localStorageKey = i18n.t("headerLinksLocalStorageKey");
 

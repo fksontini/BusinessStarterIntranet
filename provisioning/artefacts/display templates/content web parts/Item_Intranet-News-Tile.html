@@ -1,11 +1,12 @@
-<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"> 
-<head>
-<title>Intranet News Item (Tile)</title>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
 
-<!--[if gte mso 9]><xml>
+<head>
+    <title>Intranet News Item (Tile)</title>
+
+    <!--[if gte mso 9]><xml>
 <mso:CustomDocumentProperties>
 <mso:TemplateHidden msdt:dt="string">0</mso:TemplateHidden>
-<mso:ManagedPropertyMapping msdt:dt="string">'Picture URL'{Picture URL}:'PublishingImage','Link URL'{Link URL}:'Path','Title'{Title}:'Title','News Summary'{News Summary}:'PublishingPageContentOWSHTML','News Publishing Date'{News Publishing Date}:'IntranetContentPublishingDateOWSDATE','Refiner'{Refiner}:'RefinableString02','SecondaryFileExtension','IntranetIsNewsOnTopOWSBOOL','ContentTypeId'</mso:ManagedPropertyMapping>
+<mso:ManagedPropertyMapping msdt:dt="string">'Picture URL'{Picture URL}:'PublishingImage','Link URL'{Link URL}:'Path','Title'{Title}:'Title','News Summary'{News Summary}:'PublishingPageContentOWSHTML','News Publishing Date'{News Publishing Date}:'RefinableDate00','News Author'{News Author}:'IntranetContentAuthor','Refiner'{Refiner}:'RefinableString02','SecondaryFileExtension','IntranetIsNewsOnTopOWSBOOL','ContentTypeId'</mso:ManagedPropertyMapping>
 <mso:MasterPageDescription msdt:dt="string">Displays news items in a list format.</mso:MasterPageDescription>
 <mso:ContentTypeId msdt:dt="string">0x0101002039C03B61C64EC4A04F5361F385106603</mso:ContentTypeId>
 <mso:TargetControlType msdt:dt="string">;#Content Web Parts;#</mso:TargetControlType>
@@ -24,7 +25,7 @@
 
     <div id="Item_WebPage">
 
-    <!--#_
+        <!--#_
         // Thanks to this post http://sharepointificate.blogspot.ca/2016/06/search-display-templates-made-easy-w.html
 
         var encodedId = $htmlEncode(ctx.ClientControl.get_nextUniqueId());
@@ -47,7 +48,8 @@
         // Get the URL of the news image with the correct rendition
         var image = $getItemValue(ctx, "Picture URL");
         var imageUrlWithRendition = Srch.U.getImageSourceWithRendition(image, 100, 100);
-        
+        var imageUrlWithRendition2 = Srch.U.getImageSourceWithRendition(image, 850);
+
         // Remove existing rendition parameter is there is one
         imageUrlWithRendition  = imageUrlWithRendition.replace(/\?RENDITIONID=.&/gi, "?");
 
@@ -69,44 +71,96 @@
         
     _#-->
 
-    <div data-bind="stopBinding: true">
-        <div class="item-display-template">
-            <div id="_#=containerId=#_" class="news-item" >
-                       
-				<div class="tile">
-                <!-- ko with: item -->
+        <div data-bind="stopBinding: true">
+            <div class="item-display-template">
+                <div id="_#=containerId=#_" class="news-item">
+                    <!--#_
+                
+                // Check if it is the firstitem to process
+                             
+                if(ctx.CurrentItemIdx == 0) {
+                _#-->
+                    <div class="tile">
+                        <!-- ko with: item -->
+
+                        <div class="item-image" style="position: relative; width: 100%;">
+                            <a data-bind="attr: { href: Path }">                            
+                            <img style="width: 100%; height: 100%" src="_#= imageUrlWithRendition2 =#_" data-bind="css: {'no-image': !$data.PublishingImage }"/>
+                            <div style="padding: 10px;position: absolute;bottom: 0;background: rgba(174, 193, 40, 0.8);left: 0;width: 100%;color: #fff;">
+                            <!-- ko if: $data.Title -->
+                            <h3 data-bind="text: Title"></h3>
+                            <!-- /ko -->
+
+                            <div class="item-date">
+                                <!-- ko if: $data.RefinableDate00 -->
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                <span data-bind="formatDateField: RefinableDate00, dateFormat : 'LL'"></span>
+                                <!-- /ko -->
+                                <!-- ko if: $data.IntranetContentAuthor -->
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <span data-bind="text: IntranetContentAuthor"></span>
+                                <!-- /ko -->
+                            </div>
+
+                            <div class="item-excerpt">
+                                <!-- ko if: $data.PublishingPageContentOWSHTML -->
+                                <div data-bind="summarize: { text: PublishingPageContentOWSHTML }, linesCount: 3"></div>
+                                <!-- /ko -->
+                            </div>
+                            </div>
+                            </a>
+                        </div>
+                            <!-- /ko -->
+                    </div>
                         
+
+                <!--#_
+                } else {
+                _#-->
+
+                <div class="tile">
+                    <!-- ko with: item -->
+
                     <div class="item-image hidden-sm hidden-xs">
                         <a data-bind="attr: { href: Path }">                            
                             <img src="_#= imageUrlWithRendition =#_" data-bind="css: {'no-image': !$data.PublishingImage }"/>
                         </a>
                     </div>
-                  
+
                     <div class="item-title">
                         <!-- ko if: $data.IntranetIsNewsOnTopOWSBOOL == 1 -->
-	                    	<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-						<!-- /ko -->
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        <!-- /ko -->
 
                         <!-- ko if: $data.Title -->
                         <a data-bind="attr: { href: Path }, summarize: { html: Title }, linesCount: 3"> </a>
                         <!-- /ko -->
                     </div>
-                    
-                    <div class="item-date" style="display:none">
-                        <!-- ko if: $data.IntranetContentPublishingDateOWSDATE -->
-                        <span data-bind="formatDateField: IntranetContentPublishingDateOWSDATE, dateFormat : 'LL'"></span>
+
+                    <div class="item-date">
+                        <!-- ko if: $data.RefinableDate00 -->
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <span data-bind="formatDateField: RefinableDate00, dateFormat : 'LL'"></span>
                         <!-- /ko -->
-                    </div>     
+                        <!-- ko if: $data.IntranetContentAuthor -->
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span data-bind="text: IntranetContentAuthor"></span>
+                        <!-- /ko -->
+                    </div>
 
                     <div class="item-excerpt">
                         <!-- ko if: $data.PublishingPageContentOWSHTML -->
-                        <div data-bind="summarize: { text: PublishingPageContentOWSHTML }, linesCount: 4"></div>
+                        <div data-bind="summarize: { text: PublishingPageContentOWSHTML }, linesCount: 3"></div>
                         <!-- /ko -->
-                    </div>       
-                    
-                <!-- /ko -->
-        		</div> 
-        		
+                    </div>
+
+                    <!-- /ko -->
+                </div>
+
+                <!--#_
+                }
+                _#-->
+
                 <!--#_
                 
                 // Check if it is the last item to process and refiner managed metadata has been specified
@@ -114,13 +168,13 @@
                 
                 if(currentItemIdx === ctx.CurrentGroup.RowCount && !refinerManagedProperty.isNull) {
                 _#-->
-                    <div class="all-items-link tile">
-                        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
-                        <a data-bind="text: allLabel, attr: { href: searchPageUrl }, getSearchUrl: true"></a>
-                    </div>
+                <div class="all-items-link tile">
+                    <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    <a data-bind="text: allLabel, attr: { href: searchPageUrl }, getSearchUrl: true"></a>
+                </div>
                 <!--#_
                 }
-                _#-->            
+                _#-->
             </div>
         </div>
     </div>
@@ -128,4 +182,5 @@
     </div>
 
 </body>
+
 </html>

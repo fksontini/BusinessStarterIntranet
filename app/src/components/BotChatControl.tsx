@@ -17,7 +17,7 @@ export class BotChatControl extends React.Component<any, any> {
   constructor() {
     super();
 
-    this.configListName = "Configuration";
+    this.configListName = "Konfiguration";
     this.state = { showPanel: false, isBotDisabled: true };
     this.currentLanguage = i18n.t("LanguageLabel");
     this.botLinkLabel = i18n.t("chatWithBot");

@@ -15,6 +15,8 @@ require('es6-promise/auto'); // Fix for IE11 (inject the polyfill in the global 
 import { Localization } from "./core/localization";
 import { BreadcrumbViewModel } from "./viewmodels/breadcrumb.viewmodel";
 import { CarouselViewModel } from "./viewmodels/carousel.viewmodel";
+import { GroupsViewModel } from "./viewmodels/groups.viewmodel";
+import { TilesViewModel } from "./viewmodels/tiles.viewmodel";
 import { ContextualMenuViewModel } from "./viewmodels/contextualmenu.viewmodel";
 import { DefaultDisplayTemplateItemViewModel } from "./viewmodels/defaultdisplaytemplateitem.viewmodel";
 import { DefaultFilterViewModel } from "./viewmodels/defaultfilter-mui.viewmodel";
@@ -25,6 +27,7 @@ import { KnockoutComponent } from "./viewmodels/knockoutcomponent";
 import { LanguageSwitcherViewModel } from "./viewmodels/languageswitcher.viewmodel";
 import { PageDisplayTemplateItemViewModel } from "./viewmodels/pageitem.viewmodel";
 import { PageInfoViewModel } from "./viewmodels/pageinfo.viewmodel";
+import { PersonaViewModel } from "./viewmodels/persona.viewmodel";
 import { SearchBoxViewModel } from "./viewmodels/searchbox.viewmodel";
 import { SearchBoxMobileViewModel } from "./viewmodels/searchboxmobile.viewmodel";
 import { TopNavViewModel } from "./viewmodels/topnav.viewmodel";
@@ -123,6 +126,11 @@ export class Main {
         require("./styles/css/pageinfo.scss");
         let pageInfoComponent = new KnockoutComponent("component-pageinfo", PageInfoViewModel, pageInfoTemplate);
 
+         // Component: "Persona"
+        let personaTemplate = require("./templates/persona.template.html");
+        // require("./styles/css/persona.scss");
+        let personaComponent = new KnockoutComponent("component-persona", PersonaViewModel, personaTemplate);
+
         // Component: "Translation Control"
         let translationControlTemplate = require("./templates/translationcontrol.template.html");
         require("./styles/css/translationcontrol.scss");
@@ -158,6 +166,16 @@ export class Main {
         let carouselTemplate = require("./templates/carousel.template.html");
         require("./styles/css/carousel.scss");
         let carouselComponent = new KnockoutComponent("component-carousel", CarouselViewModel, carouselTemplate);
+
+        // Component: "Groups"
+        let groupsTemplate = require("./templates/groups.template.html");
+        require("./styles/css/groups.scss");
+        let groupsComponent = new KnockoutComponent("component-groups", GroupsViewModel, groupsTemplate);
+
+         // Component: "Tiles"
+        let tilesTemplate = require("./templates/tiles.template.html");
+        require("./styles/css/tiles.scss");
+        let tilesComponent = new KnockoutComponent("component-tiles", TilesViewModel, tilesTemplate);
 
         // Component: "ICS Generator"
         let calendarGeneratorTemplate = require("./templates/icscalendargenerator.html");
@@ -201,7 +219,7 @@ export class Main {
                 // Add Bootstrap responsive behavior for news images
                 $("#page-image img").addClass("img-responsive");
 
-                web.lists.getByTitle("Pages").items.getById(_spPageContextInfo.pageItemId).select("HideSideBar").get().then(item => {
+                web.lists.getByTitle("Sidor").items.getById(_spPageContextInfo.pageItemId).select("HideSideBar").get().then(item => {
                     
                     if (item.HideSideBar) {
 

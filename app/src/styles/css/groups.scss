@@ -1,0 +1,51 @@
+@import 'variables';
+
+#test {
+list-style: none;
+padding-left: 0;
+
+}
+
+#test i {
+color: #AEC128;
+}
+
+#imonontitle {
+    background: #AEC128;
+    width: 100%;
+    padding: 5px;
+    color: #fff;
+    margin-top: 5px;
+}
+.page {
+  display: flex;
+  justify-content: left;
+ 
+}
+
+.page a {
+  
+  margin: 0 1.25px;
+  background: #353535 !important;
+  color: #ffffff !important;
+  padding: 5px 10px;
+  text-decoration: none;
+}
+
+.page a.active {
+  
+  background: #AEC128 !important;
+}
+
+.list-group-item {
+white-space: nowrap;
+overflow: hidden; 
+text-overflow: ellipsis
+}
+
+.imonon-heading {
+    padding: 5px 10px;
+    border-bottom: 1px solid transparent;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}

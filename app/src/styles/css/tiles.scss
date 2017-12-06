@@ -1,0 +1,51 @@
+.image-block {
+    border: 2px solid transparent;
+    padding: 0px !important;    
+    margin: 0px;
+    height:155px;
+    text-align: center;
+    vertical-align: bottom;
+    overflow: hidden;
+    cursor: pointer;
+}
+.hejsan {
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    transition:top 0.25s linear;
+    left: 0px;
+    top: 100px; 
+    width: 100%;
+    height: 100%;
+}
+
+.image-block:hover .hejsan {
+    top: 0 !important;
+    transition:top 0.25s linear;   
+}
+
+@media (min-width: 375px) and (max-width: 504px) { 
+  .image-block {
+    height:95px;
+   }
+   .hejsan {
+      transition:top 0.25s linear;
+      top: 50px;
+  }
+  
+
+}
+
+@media (max-width: 374px) { 
+  .image-block {
+    height:75px;
+   }
+   .hejsan {
+      transition:top 0.25s linear;
+      top: 40px;
+}
+.hejsan p{
+      font-size: 11px;
+      text-overflow: ellipsis; 
+  }
+}

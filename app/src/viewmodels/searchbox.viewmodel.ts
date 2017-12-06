@@ -91,7 +91,7 @@ export class SearchBoxViewModel {
 
             } else {
 
-                queryUrl = _spPageContextInfo.siteAbsoluteUrl + "/Pages/" + this.selectedCategory().searchPageUrl + "?k=" + this.inputQuery();
+                queryUrl = _spPageContextInfo.siteAbsoluteUrl + "/Sidor/" + this.selectedCategory().searchPageUrl + "?k=" + this.inputQuery();
 
                 // Redirect to the correct page according to selected category
                 window.location.href = queryUrl;

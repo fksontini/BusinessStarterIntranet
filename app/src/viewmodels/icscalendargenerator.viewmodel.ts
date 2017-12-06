@@ -38,7 +38,7 @@ export class ICSCalendarGeneratorViewModel {
         let web = new Web(_spPageContextInfo.webAbsoluteUrl);
 
         // Get the event details directly from the Pages library
-        web.lists.getByTitle("Pages").items.getById(this.eventItemId).get().then(item => {
+        web.lists.getByTitle("Sidor").items.getById(this.eventItemId).get().then(item => {
             
             // Create a builder
             var builder = icalToolkit.createIcsFileBuilder();

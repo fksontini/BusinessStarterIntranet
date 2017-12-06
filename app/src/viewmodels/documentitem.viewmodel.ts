@@ -22,7 +22,7 @@ export class DocumentDisplayTemplateItemViewModel extends DefaultDisplayTemplate
 
             init: () => {
 
-                this.searchPageUrl(_spPageContextInfo.siteAbsoluteUrl + "/Pages/" + i18n.t("documentsSearchPageUrl"));
+                this.searchPageUrl(_spPageContextInfo.siteAbsoluteUrl + "/Sidor/" + i18n.t("documentsSearchPageUrl"));
             },
         };
     }

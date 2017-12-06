@@ -13,7 +13,7 @@ import * as moment from "moment";
 // Resources
 //require("moment/locale/fr");
 let enUSResources = require("../resources/en-US.json");
-let frFRResources = require("../resources/fr-FR.json");
+let svSEResources = require("../resources/sv-SE.json");
 
 export class Localization {
 
@@ -31,12 +31,12 @@ export class Localization {
             // By this way, we don't have to create a synchronized symetric web structure (like SharePoint variations do). We keep a flat structure with only one site.
             // For a contributor, it is by far easier to use than variations.
             // The "IntranetContentLanguage" is a choice field so we don't need taxonomy field here. Values of this choice field have to be 'en' or 'fr' to fit with the format below.
-            web.lists.getByTitle("Pages").items.getById(_spPageContextInfo.pageItemId).select("IntranetContentLanguage").get().then((item) => {
+            web.lists.getByTitle("Sidor").items.getById(_spPageContextInfo.pageItemId).select("IntranetContentLanguage").get().then((item) => {
 
                 let itemLanguage: string = item.IntranetContentLanguage;
 
                 // Default language for the intranet
-                let workingLanguage: string = "en";
+                let workingLanguage: string = "sv";
 
                 if (itemLanguage) {
                     workingLanguage = itemLanguage.toLowerCase();
@@ -45,7 +45,7 @@ export class Localization {
                 i18n.init({
 
                     // Init the working language and resource files for the entire application
-                    fallbackLng: "en",
+                    fallbackLng: "sv",
                     lng: workingLanguage,
                     resources: {
 
@@ -53,8 +53,8 @@ export class Localization {
                             translation: enUSResources,
 
                         },
-                        fr: {
-                            translation: frFRResources,
+                        sv: {
+                            translation: svSEResources,
                         },
                     },
                     }, (err, t) => {

@@ -1,0 +1,204 @@
+﻿<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+<title>People Item (Custom)</title>
+
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:TemplateHidden msdt:dt="string">0</mso:TemplateHidden>
+<mso:MasterPageDescription msdt:dt="string">Displays a result tailored for a person.</mso:MasterPageDescription>
+<mso:ContentTypeId msdt:dt="string">0x0101002039C03B61C64EC4A04F5361F385106603</mso:ContentTypeId>
+<mso:TargetControlType msdt:dt="string">;#SearchResults;#</mso:TargetControlType>
+<mso:HtmlDesignAssociated msdt:dt="string">1</mso:HtmlDesignAssociated>
+<mso:CrawlerXSLFile msdt:dt="string"></mso:CrawlerXSLFile>
+<mso:ManagedPropertyMapping msdt:dt="string">'WorkPhone':'WorkPhone','MobilePhone':'MobilePhone','AboutMe':'AboutMe','AccountName':'AccountName','BaseOfficeLocation':'BaseOfficeLocation','Department':'Department','HitHighlightedProperties':'HitHighlightedProperties','Interests':'Interests','JobTitle':'JobTitle','LastModifiedTime':'LastModifiedTime','Memberships':'Memberships','PastProjects':'PastProjects','Path':'Path','PictureURL':'PictureURL','PreferredName':'PreferredName','Responsibilities':'Responsibilities','Schools':'Schools','ServiceApplicationID':'ServiceApplicationID','SipAddress':'SipAddress','Skills':'Skills','UserProfile_GUID':'UserProfile_GUID','WorkEmail':'WorkEmail','WorkId':'WorkId','YomiDisplayName':'YomiDisplayName'</mso:ManagedPropertyMapping>
+<mso:HtmlDesignConversionSucceeded msdt:dt="string">True</mso:HtmlDesignConversionSucceeded>
+<mso:HtmlDesignStatusAndPreview msdt:dt="string">http://test.schneck.com/sites/search/_catalogs/masterpage/Display Templates/Search/Item_Person_FPS.html, Conversion successful.</mso:HtmlDesignStatusAndPreview>
+<mso:HtmlDesignPreviewUrl msdt:dt="string"></mso:HtmlDesignPreviewUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+    <div id="Item_Person">
+<!--#_
+                    if(!$isNull(ctx.CurrentItem) && !$isNull(ctx.ClientControl)){
+                        var id = ctx.ClientControl.get_nextUniqueId();
+                        var itemId = id + Srch.U.Ids.item;
+                        var hoverId = id + Srch.U.Ids.hover;
+                        $setResultItem(itemId, ctx.CurrentItem);
+                        var container_id = id + "_peopleContainer";
+                        var hhProps = Srch.U.createXMLDocument("<root>" + ctx.CurrentItem.HitHighlightedProperties + "</root>");
+                        var encodedPath = $urlHtmlEncode(ctx.CurrentItem.Path);
+                        var has_pn = !$isEmptyString(ctx.CurrentItem.PreferredName);
+                        var has_sip = !$isEmptyString(ctx.CurrentItem.SipAddress);
+                        var has_email = !$isEmptyString(ctx.CurrentItem.WorkEmail);
+                        var has_jt = !$isEmptyString(ctx.CurrentItem.JobTitle);
+                        var has_dp = !$isEmptyString(ctx.CurrentItem.Department);
+                        var has_abme = !$isEmptyString(ctx.CurrentItem.AboutMe);
+                        var has_resp = !$isEmptyString(ctx.CurrentItem.Responsibilities);
+                        var has_pp = !$isEmptyString(ctx.CurrentItem.PastProjects);
+                        var has_ski = !$isEmptyString(ctx.CurrentItem.Skills);
+                        var has_sch = !$isEmptyString(ctx.CurrentItem.Schools);
+                        var has_int = !$isEmptyString(ctx.CurrentItem.Interests);
+                        var has_vlm = !$isEmptyString(ctx.CurrentItem.ProfileViewsLastMonth);
+                        var has_vlw = !$isEmptyString(ctx.CurrentItem.ProfileViewsLastWeek);
+                        var has_query = !$isEmptyString(ctx.CurrentItem.ProfileQueriesFoundYou);
+                        var isSelfSrch = (has_vlm == true || has_vlw == true || has_query == true);
+                        var delimiter = "";
+                        var userPersonaId = $htmlEncode(id) + "_peopleUserPersona";
+                        var uSip = ctx.CurrentItem.SipAddress;
+                        var uEmail = ctx.CurrentItem.WorkEmail;
+                        var uName = ctx.CurrentItem.PreferredName;
+                        var uPicUrl = ctx.CurrentItem.PictureURL;
+                        var hoverUrl = "~sitecollection/_catalogs/masterpage/Display Templates/Search/Item_Person_HoverPanel.js";
+                        var comp_id = id + "_component";
+_#-->
+<div class="item-display-template">
+   <div class="people-item"> 
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <article class="material-card Green">
+      <!--#_
+            var encodedName = (has_pn == true) ? $htmlEncode(ctx.CurrentItem.PreferredName) : $htmlEncode(ctx.CurrentItem.YomiDisplayName);
+            var displayName = Srch.U.getSingleHHXMLNodeValue(hhProps, "preferredname");
+            if ($isEmptyString(displayName)) { displayName = encodedName }
+_#-->
+        <a clicktype="Result" id="NameFieldLink" href="_#= encodedPath =#_" title="_#= encodedName =#_"><h2><span> _#= displayName =#_</span>
+<!--#_ 
+            if(has_jt == true) {
+_#-->
+<!--#_
+            var encodedJtitle = $htmlEncode(ctx.CurrentItem.JobTitle);
+            var displayJtitle = Srch.U.getSingleHHXMLNodeValue(hhProps, "jobtitle");
+            if ($isEmptyString(displayJtitle)) { displayJtitle = encodedJtitle }
+                                                
+_#-->        
+        <strong><i class="fa fa-fw fa-star"></i>_#= displayJtitle =#_</strong>
+<!--#_ 
+        } else {
+_#-->
+      <strong><i class="fa fa-fw fa-star"></i>Jobbtitel</strong>                                 
+<!--#_ 
+        } 
+_#-->
+
+<!--#_
+var encodedWorkEmail = $htmlEncode(ctx.CurrentItem.WorkEmail);
+var displayWorkEmail = Srch.U.getSingleHHXMLNodeValue(hhProps, "workemaile");
+if ($isEmptyString(displayWorkEmail)) { displayWorkEmail = encodedWorkEmail }
+_#-->
+        </h2></a>
+      <div class="mc-content">
+        <div class="img-container">
+            <div id="_#= comp_id =#_"></div>
+            
+            <!--<component-persona params='userEmail: ["_#= uEmail =#_"], element: ["_#= comp_id =#_"]'></component-persona>-->
+            <img class="img-responsive" src="/_layouts/15/userphoto.aspx?size=L%26accountname=_#= encodedWorkEmail =#_">
+        </div>
+        <div class="mc-description">
+    
+
+        <strong>Email:</strong><a href="mailto:_#= encodedWorkEmail =#_"> _#= displayWorkEmail =#_ </a>
+
+        <!--#_
+var encodedDept = $htmlEncode(ctx.CurrentItem.Department);
+var displayDept = Srch.U.getSingleHHXMLNodeValue(hhProps, "department");
+if ($isEmptyString(displayDept)) { displayDept = encodedDept }
+_#-->
+       <strong>Avdelning:</strong>_#= displayDept =#_
+
+                        <!--#_
+var encodedWorkPhone = $htmlEncode(ctx.CurrentItem.WorkPhone);
+var displayWorkPhone = Srch.U.getSingleHHXMLNodeValue(hhProps, "workphone");
+if ($isEmptyString(displayWorkPhone)) { displayWorkPhone = encodedWorkPhone }
+_#-->
+        <strong>Telefon:</strong>_#= displayWorkPhone =#_
+</div>
+</div>
+                <a class="mc-btn-action">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <div class="mc-footer">
+                    <a class="fa fa-fw fa-user"></a>
+                    <a class="fa fa-fw fa-twitter"></a>
+                    <a class="fa fa-fw fa-linkedin"></a>
+                </div>
+</article>
+                    
+                    
+                
+                        
+
+
+
+
+
+<!--#_
+
+
+var $ = Intranet.Main.jQuery();
+$(function() {
+        $('.material-card > .mc-btn-action').unbind();
+        $('.material-card > .mc-btn-action').click(function () {
+            debugger;
+            var card = $(this).parent('.material-card');
+            var icon = $(this).children('i');
+            icon.addClass('fa-spin-fast');
+
+            if (card.hasClass('mc-active')) {
+                card.removeClass('mc-active');
+
+                window.setTimeout(function() {
+                    icon
+                        .removeClass('fa-arrow-left')
+                        .removeClass('fa-spin-fast')
+                        .addClass('fa-bars');
+
+                }, 800);
+            } else {
+                card.addClass('mc-active');
+
+                window.setTimeout(function() {
+                    icon
+                        .removeClass('fa-bars')
+                        .removeClass('fa-spin-fast')
+                        .addClass('fa-arrow-left');
+
+                }, 800);
+            }
+        });
+    });
+
+
+                    AddPostRenderCallback(ctx, function(){
+                        EnsureScriptFunc("clienttemplates.js", "RenderUserFieldWorker", function() {
+                            var getUserPersona = function() {
+                                var renderCtx = new ContextInfo();
+                                renderCtx.Templates = {};
+                                renderCtx.Templates["Fields"] = {};
+                                var fieldSchemaData = { "PictureOnly":"1", "PictureSize": "Size_72px"};
+                                var listSchema = {"EffectivePresenceEnabled": "1", "PresenceAlt": Srch.Res.item_People_NoPresenceAvailable};
+                                var userData = {"title": uName, "email": uEmail, "picture": uPicUrl, "sip": uSip};
+                                var personaControlElement = document.getElementById(userPersonaId);
+                                if (!Srch.U.n(personaControlElement))
+                                {
+                                    personaControlElement.innerHTML = RenderUserFieldWorker(renderCtx, fieldSchemaData, userData, listSchema);
+                                }
+                                if(typeof(ctx.EnqueueImnRequest) == "undefined") { ctx.EnqueueImnRequest = false; }
+                                if (ctx.EnqueueImnRequest == false) {
+                                    ctx.ClientControl.add_oneTimeResultRendered(function(){ if (typeof(ProcessImn) != "undefined") { ProcessImn(); } });
+                                    ctx.EnqueueImnRequest = true;
+                                 }
+                            };
+                            getUserPersona();
+                        });
+                    });
+_#-->
+
+<!--#_
+                }
+_#-->
+    </div>
+   </div>
+</div>
+    </div>
+</body>
+</html>

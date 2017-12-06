@@ -31,7 +31,7 @@ export class TopNavViewModel extends NavigationViewModel {
         // The current language is determined at the entry point of the application
         // Instead of making a second call to get the current langauge, we get the corresponding resource value according to the current context (like we already do for LCID)
         let currentLanguage = i18n.t("LanguageLabel");
-        let configListName = "Configuration";
+        let configListName = "Konfiguration";
 
         // Yamm3! MegaMenu
         $(document).on("click", ".yamm .dropdown-menu", (e) => {

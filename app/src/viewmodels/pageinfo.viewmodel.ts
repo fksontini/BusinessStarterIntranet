@@ -41,7 +41,7 @@ export class PageInfoViewModel {
         // Note 1: Be careful, there is a bug with GET REST API for taxonomy fields when they have only a single value (i.e the Label property is not correct)
         // In our case, we don"t use directly the label because we have to get it according the current language so it does not matter. Remember, by default, the returned label follows the current web language
         // Note 2: If no fields are specified, the pnp call return all fields from the item (without expand)
-        web.lists.getByTitle("Pages").items.getById(_spPageContextInfo.pageItemId).select(this.selectedFields).expand(this.expandedFields).get().then((item) => {
+        web.lists.getByTitle("Sidor").items.getById(_spPageContextInfo.pageItemId).select(this.selectedFields).expand(this.expandedFields).get().then((item) => {
 
             let allItemProperties: Array<Promise<any>> = [];
 
